@@ -1,11 +1,33 @@
 import React from "react";
-import logo from "./logo.svg";
+import logo from "./logo.png";
 import "./App.css";
 
 import readXlsxFile from 'read-excel-file'
+import { Button } from "@material-ui/core";
+import { makeStyles } from '@material-ui/core/styles';
+import SaveIcon from '@material-ui/icons/Save';
+import SaveAltIcon from '@material-ui/icons/SaveAlt';
 
+import PDF from './components/PDF'
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+
+const useStyles = makeStyles((theme) => ({
+  button: {
+    margin: theme.spacing(1),
+    textTransform: 'none'
+  },
+  input: {
+    display: 'none'
+  },
+  download: {
+    textTransform: 'none',
+    textDecoration: 'none'
+  }
+}));
 
 function App() {
+
+  const classes = useStyles();
 
   const readExcel = (file) => {
     readXlsxFile(file, { getSheets: true }).then((sheets) => {
@@ -22,27 +44,56 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      {console.log(`
+ ██╗██████╗ ██████╗     ███████╗████████╗██████╗ ██╗   ██╗ ██████╗████████╗██╗   ██╗██████╗ ███████╗
+███║╚════██╗╚════██╗    ██╔════╝╚══██╔══╝██╔══██╗██║   ██║██╔════╝╚══██╔══╝██║   ██║██╔══██╗██╔════╝
+╚██║ █████╔╝ █████╔╝    ███████╗   ██║   ██████╔╝██║   ██║██║        ██║   ██║   ██║██████╔╝█████╗  
+ ██║██╔═══╝  ╚═══██╗    ╚════██║   ██║   ██╔══██╗██║   ██║██║        ██║   ██║   ██║██╔══██╗██╔══╝  
+ ██║███████╗██████╔╝    ███████║   ██║   ██║  ██║╚██████╔╝╚██████╗   ██║   ╚██████╔╝██║  ██║███████╗
+ ╚═╝╚══════╝╚═════╝     ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝  ╚═════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝
+
+                                                                             made by @baptistelechat
+                                        visit https://github.com/baptistelechat/123structure-toolbox
+                                                                       visit https://123structure.fr
+                                          `)}
+      <img src={logo} className="App-logo" alt="logo" />
+      <input
+        id="upload-file"
+        type="file"
+        accept=".xls,.xlsx,.xlsm"
+        className={classes.input}
+        onChange={(e) => {
+          const file = e.target.files[0];
+          readExcel(file);
+        }}
+      />
+      <label htmlFor="upload-file">
+        <Button
+          variant="contained"
+          component="span"
+          color="default"
+          size="large"
+          className={classes.button}
+          startIcon={<SaveAltIcon />}
         >
-          Learn React
-        </a>
-        <input
-          type="file"
-          onChange={(e) => {
-            const file = e.target.files[0];
-            readExcel(file);
-          }}
-        />
-      </header>
+          Charger un fichier ...
+        </Button>
+      </label>
+      <PDFViewer style={{width:'40%', height:'25%'}}>
+        <PDF/>
+      </PDFViewer>
+      <PDFDownloadLink document={<PDF />} fileName="123Structure.pdf" className={classes.download}>
+        <Button
+          variant="contained"
+          component="span"
+          color="default"
+          size="large"
+          className={classes.button}
+          startIcon={<SaveIcon />}
+        >
+          Télécharger mon rapport
+        </Button>
+      </PDFDownloadLink>
     </div>
   );
 }
