@@ -2,11 +2,11 @@ import React from "react";
 import logo from "./logo.png";
 import "./App.css";
 
-import readXlsxFile from 'read-excel-file'
+import readXlsxFile from "read-excel-file";
 import { Button } from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 import SaveIcon from '@material-ui/icons/Save';
-import SaveAltIcon from '@material-ui/icons/SaveAlt';
+import SaveAltIcon from "@material-ui/icons/SaveAlt";
 
 import PDF from './components/PDF'
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
@@ -14,33 +14,32 @@ import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
-    textTransform: 'none'
+    textTransform: "none",
   },
   input: {
-    display: 'none'
+    display: "none",
   },
   download: {
-    textTransform: 'none',
-    textDecoration: 'none'
-  }
+    textTransform: "none",
+    textDecoration: "none",
+  },
 }));
 
 function App() {
-
   const classes = useStyles();
 
   const readExcel = (file) => {
     readXlsxFile(file, { getSheets: true }).then((sheets) => {
       // Get the list of sheets
       // sheets === [{ name: 'Sheet1' }, { name: 'Sheet2' }]
-      console.log(sheets)
-      readXlsxFile(file, {sheet: 3}).then((rows) => {
+      console.log(sheets);
+      readXlsxFile(file, { sheet: 3 }).then((rows) => {
         // `rows` is an array of rows
         // each row being an array of cells.
-        console.log(rows)
-      })
-    })
-  }
+        console.log(rows);
+      });
+    });
+  };
 
   return (
     <div className="App">
